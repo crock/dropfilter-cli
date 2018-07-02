@@ -1,0 +1,15 @@
+{
+  "maxDomainLength": 10,
+  "keywords": [
+    "minecraft",
+    "coin",
+    "craft"
+  ],
+  "tlds": [
+    "com",
+    "net",
+    "org",
+    "io",
+    "co"
+  ]
+}
