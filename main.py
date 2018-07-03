@@ -1,14 +1,17 @@
 import os.path
 import json
+
+
 import requests
 import arrow
 import progressbar
 from lib.Filters import Filters
 
+
 local = arrow.now("America/New_York")
 tomorrow = local.shift(days=1).format("M-DD-YYYY")
 
-url = "http://www.namejet.com/download/%s.txt" % tomorrow
+url = f"http://www.namejet.com/download/{tomorrow}.txt"
 # csv = "https://snapnames.com/search_dl.sn?type=12"
 
 filename = tomorrow + ".txt"
@@ -21,7 +24,7 @@ fp.close()
 def download_file(url, filename):
     response = requests.get(url, stream=True)
     if response.status_code is 200:
-        fx = open('tmp/%s' % filename, 'wb')
+        fx = open(f'tmp/{filename}', 'wb')
         file_size = int(response.headers['Content-Length'])
         chunk = 1
         num_bars = file_size / chunk
@@ -52,14 +55,14 @@ def filter_domains(domains):
 
 
 def main():
-    if os.path.isfile('tmp/%s' % filename):
+    if os.path.isfile(f'tmp/{filename}'):
         pass
     else:
         print("Downloading tomorrow\'s list of expiring domains...")
         download_file(url, filename)
 
     print("Filtering domains according to your specified conditions...")
-    domains = [line.rstrip('\n') for line in open('tmp/%s' % filename)]
+    domains = [line.rstrip('\n') for line in open(f'tmp/{filename}')]
     filter_domains(domains)
 
 
