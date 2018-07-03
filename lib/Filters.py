@@ -8,10 +8,9 @@ class Filters(object):
     def __init__(self, obj):
         self.config = obj
 
-
     def is_select_tld(self, domain):
         for tld in self.config['tlds']:
-            pattern = '(?:[a-zA-Z0-9-]+\.)%s' % tld
+            pattern = f'(?:[a-zA-Z0-9-]+\.){tld}'
             match = re.match(pattern, domain)
             if match is not None:
                 return True
@@ -40,7 +39,7 @@ class Filters(object):
     def contains_keyword(self, domain):
         tld = domain.split('.')[1]
         for keyword in self.config['keywords']:
-            pattern = '(?:[a-zA-Z0-9-]+)?%s(?:[a-zA-Z0-9-]+)?(?:\.%s)$' % (keyword, tld)
+            pattern = f'(?:[a-zA-Z0-9-]+)?{keyword}(?:[a-zA-Z0-9-]+)?(?:\.{tld})$'
             match = re.match(pattern, domain)
             if match is not None:
                 return True
