@@ -3,3 +3,4 @@
 results/
 tmp/
 venv/
+lib/__pycache__/
