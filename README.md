@@ -42,7 +42,9 @@ If executed correctly, you will see domains being output according to your crite
 Published a thread about this program on [NamePros](https://www.namepros.com/threads/1089218).
 
 If this helped you, tips are greatly appreciated!
+
 https://paypal.me/croc
+
 https://cash.me/$croc
 
 **BTC:** 36ZTw3CyFoKNZrFcxpx1pZfkPCLBkRGYBF
