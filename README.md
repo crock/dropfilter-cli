@@ -8,7 +8,7 @@ If running on a timer of some sort, please set the script to run AFTER 7:00 AM P
 1. Download the Python 3.6.x+ installer from python.org/downloads
 2. Run the installer, but please make sure to tick the box labeled "Add Python to environment variables". It is unchecked by default. **This is important!**
 3. Open Terminal (Mac/Linux) or Command Prompt (Windows) and type the following command to let the terminal know where the script files are located. Replace [file path] with the full path to the directory containing the files: `cd [file path]`
-4. Run the following command: `pip install -r requirements.txt`
+4. Run the following command: `pip3 install -r requirements.txt`
 
 ## Usage
 The above installation steps only need to be run once. Now every time you want to run this utility, you simply run the following command: `python main.py` (if that doesn't work, try replacing python in that command with python3)
