@@ -41,10 +41,12 @@ If executed correctly, you will see domains being output according to your crite
 
 Published a thread about this program on [NamePros](https://www.namepros.com/threads/1089218).
 
+You can also generate a properly formatted configuration for this tool or the newly created `!filter` bot command that you can use in the [Domaincord Discord community](https://domaincord.com/discord) using the following tool:
+https://domaincord.com/dropfilter/config
+
 If this helped you, tips are greatly appreciated!
 
 https://paypal.me/croc
 
 https://cash.me/$croc
 
-**BTC:** 36ZTw3CyFoKNZrFcxpx1pZfkPCLBkRGYBF
