@@ -38,27 +38,27 @@ def reformat(name):
 	
 	os.remove(f"{lists_dir}/{service_name}/{name}.json")
 
+if not os.path.exists(f"{lists_dir}/{service_name}"):
+	os.makedirs(f"{lists_dir}/{service_name}")
 for dl_time in all_download_times:
 	url = list_url
-	
 	try:
 		with closing(request.urlopen(url)) as r:
-
-			if not os.path.exists(f"{lists_dir}/{service_name}"):
-				os.makedirs(f"{lists_dir}/{service_name}")
-			path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.zip")
-			with open(path, 'wb') as f:
-				shutil.copyfileobj(r, f)
-			with zipfile.ZipFile(path, 'r') as zip_ref:
-				zip_ref.extractall(f"{lists_dir}/{service_name}")
 			source_path = os.path.join(f"{lists_dir}/{service_name}", f"{filename}.json")
 			dest_path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.json")
-			os.rename(source_path, dest_path)
-			os.remove(path)
-			reformat(dl_time)
-			print(f"Downloaded {service_name} list: {dl_time}.zip")
+			zip_path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.zip")
+			path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.txt")
+			if not os.path.exists(path):
+				with open(zip_path, 'wb') as f:
+					shutil.copyfileobj(r, f)
+				with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+					zip_ref.extractall(f"{lists_dir}/{service_name}")
+				os.rename(source_path, dest_path)
+				os.remove(zip_path)
+				reformat(dl_time)
+				print(f"Downloaded {service_name} list: {dl_time}")
 	except URLError as e:
-		print(f"Could not download {service_name} list: {dl_time}.zip")
+		print(f"Could not download {service_name} list: {dl_time}")
 		if e.reason.find('No such file or directory') >= 0:
 			raise Exception('FileNotFound')
 		else:

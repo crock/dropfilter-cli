@@ -39,26 +39,27 @@ def reformat(name):
 	with open(f"{lists_dir}/{service_name}/{name}.txt", 'w') as fx:
 		fx.write("\n".join(domains))
 
+if not os.path.exists(f"{lists_dir}/{service_name}"):
+	os.makedirs(f"{lists_dir}/{service_name}")
 for item in all_download_times:
 	dl_time = item[0]
 	name = item[1]
 	url = list_url % name
-	try:
-		response = requests.get(url)
-	
-		if response:
-			if not os.path.exists(f"{lists_dir}/{service_name}"):
-				os.makedirs(f"{lists_dir}/{service_name}")
-			path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.zip")
-			with open(path, 'wb') as fx:
-				fx.write(response.content)
-			with zipfile.ZipFile(path, 'r') as zip_ref:
-				zip_ref.extractall(f"{lists_dir}/{service_name}")
-			source_path = os.path.join(f"{lists_dir}/{service_name}", f"{name}.txt")
-			dest_path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.txt")
-			os.rename(source_path, dest_path)
-			os.remove(path)
-			reformat(dl_time)
-			print(f"Downloaded {service_name} list: {dl_time}.zip")
-	except:
-		print(f"Could not download {service_name} list: {dl_time}.zip")
+
+	source_path = os.path.join(f"{lists_dir}/{service_name}", f"{name}.txt")
+	dest_path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.txt")
+	zip_path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.zip")
+	if not os.path.exists(dest_path):
+		try:
+			response = requests.get(url)
+			if response:
+				with open(zip_path, 'wb') as fx:
+					fx.write(response.content)
+				with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+					zip_ref.extractall(f"{lists_dir}/{service_name}")
+				os.rename(source_path, dest_path)
+				os.remove(zip_path)
+				reformat(dl_time)
+				print(f"Downloaded {service_name} list: {dl_time}")
+		except:
+			print(f"Could not download {service_name} list: {dl_time}")

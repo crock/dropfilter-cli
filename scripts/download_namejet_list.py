@@ -21,17 +21,17 @@ def in_x_days(num_days):
 	
 all_download_times = [today, yesterday, tomorrow, in_x_days(2), in_x_days(3)]
 
+if not os.path.exists(f"{lists_dir}/{service_name}"):
+	os.makedirs(f"{lists_dir}/{service_name}")
 for dl_time in all_download_times:
 	url = list_url % dl_time
-	try:
-		response = requests.get(url)
-	
-		if response:
-			if not os.path.exists(f"{lists_dir}/{service_name}"):
-				os.makedirs(f"{lists_dir}/{service_name}")
-			path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.txt")
-			with open(path, 'w') as fx:
-				fx.write(response.text)
-			print(f"Downloaded {service_name} list: {dl_time}.txt")
-	except:
-		print(f"Could not download {service_name} list: {dl_time}.txt")
+	path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.txt")
+	if not os.path.exists(path):
+		try:
+			response = requests.get(url)
+			if response:
+				with open(path, 'w') as fx:
+					fx.write(response.text)
+				print(f"Downloaded {service_name} list: {dl_time}")
+		except:
+			print(f"Could not download {service_name} list: {dl_time}")
