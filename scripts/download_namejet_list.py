@@ -8,6 +8,7 @@ list_url = "http://www.namejet.com/download/%s.txt"
 date_format = "M-DD-YYYY"
 timezone = "America/New_York"
 local = arrow.now(timezone)
+script_path = os.path.dirname(os.path.abspath(__file__))
 
 # download dates
 today = local.format(date_format)
@@ -25,9 +26,9 @@ for dl_time in all_download_times:
 		response = requests.get(url)
 	
 		if response:
-			if not os.path.exists(f"lists/{service_name}"):
-				os.makedirs(f"lists/{service_name}")
-			path = os.path.join(f"lists/{service_name}", f"{dl_time}.txt")
+			if not os.path.exists(script_path, '..', f"lists/{service_name}"):
+				os.makedirs(script_path, '..', f"lists/{service_name}")
+			path = os.path.join(script_path, '..', f"lists/{service_name}", f"{dl_time}.txt")
 			with open(path, 'w') as fx:
 				fx.write(response.text)
 			print(f"Downloaded {service_name} list: {dl_time}.txt")

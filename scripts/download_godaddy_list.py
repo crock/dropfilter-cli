@@ -14,6 +14,7 @@ filename = "all_listings_ending_tomorrow"
 date_format = "M-DD-YYYY"
 timezone = "America/New_York"
 local = arrow.now(timezone)
+script_path = os.path.dirname(os.path.abspath(__file__))
 
 # download dates
 tomorrow = local.shift(days=1).format(date_format)
@@ -41,15 +42,15 @@ for dl_time in all_download_times:
 	
 	try:
 		with closing(request.urlopen(url)) as r:
-			if not os.path.exists(f"lists/{service_name}"):
-				os.makedirs(f"lists/{service_name}")
-			path = os.path.join(f"lists/{service_name}", f"{dl_time}.zip")
+			if not os.path.exists(script_path, '..', f"lists/{service_name}"):
+				os.makedirs(script_path, '..', f"lists/{service_name}")
+			path = os.path.join(script_path, '..', f"lists/{service_name}", f"{dl_time}.zip")
 			with open(path, 'wb') as f:
 				shutil.copyfileobj(r, f)
 			with zipfile.ZipFile(path, 'r') as zip_ref:
 				zip_ref.extractall(f"lists/{service_name}")
-			source_path = os.path.join(f"lists/{service_name}", f"{filename}.json")
-			dest_path = os.path.join(f"lists/{service_name}", f"{dl_time}.json")
+			source_path = os.path.join(script_path, '..', f"lists/{service_name}", f"{filename}.json")
+			dest_path = os.path.join(script_path, '..', f"lists/{service_name}", f"{dl_time}.json")
 			os.rename(source_path, dest_path)
 			os.remove(path)
 			reformat(dl_time)
