@@ -1,6 +1,19 @@
+# Useless macOS file
 .DS_Store
+
+# Editor Configurations
 .idea
-results/
-tmp/
-venv/
-lib/__pycache__/
+.nova
+.vscode
+.atom
+
+# Generated directories
+results
+tmp
+lists
+
+# Virtual Environment (Python)
+venv
+
+# Python Cache directory
+__pycache__

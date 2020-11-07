@@ -4,7 +4,7 @@ import json
 import requests
 import arrow
 import progressbar
-from lib.Filters import Filters
+from lib.filter import Filters
 
 
 local = arrow.now("America/New_York")
