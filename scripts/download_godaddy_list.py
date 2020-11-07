@@ -14,7 +14,8 @@ filename = "all_listings_ending_tomorrow"
 date_format = "M-DD-YYYY"
 timezone = "America/New_York"
 local = arrow.now(timezone)
-script_path = os.path.dirname(os.path.abspath(__file__))
+scripts_dir = os.path.dirname(os.path.abspath(__file__))
+lists_dir = os.path.join(scripts_dir, '..', 'lists')
 
 # download dates
 tomorrow = local.shift(days=1).format(date_format)
@@ -27,30 +28,31 @@ all_download_times = [tomorrow]
 def reformat(name):
 	domains = []
 	
-	with open(f"lists/{service_name}/{name}.json", 'r') as fx:
+	with open(f"{lists_dir}/{service_name}/{name}.json", 'r') as fx:
 		jsonData = json.load(fx)
 		for domain in jsonData['data']:
 			domains.append(domain['domainName'].lower())
 	
-	with open(f"lists/{service_name}/{name}.txt", 'w') as fx:
+	with open(f"{lists_dir}/{service_name}/{name}.txt", 'w') as fx:
 		fx.write("\n".join(domains))
 	
-	os.remove(f"lists/{service_name}/{name}.json")
+	os.remove(f"{lists_dir}/{service_name}/{name}.json")
 
 for dl_time in all_download_times:
 	url = list_url
 	
 	try:
 		with closing(request.urlopen(url)) as r:
-			if not os.path.exists(script_path, '..', f"lists/{service_name}"):
-				os.makedirs(script_path, '..', f"lists/{service_name}")
-			path = os.path.join(script_path, '..', f"lists/{service_name}", f"{dl_time}.zip")
+
+			if not os.path.exists(f"{lists_dir}/{service_name}"):
+				os.makedirs(f"{lists_dir}/{service_name}")
+			path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.zip")
 			with open(path, 'wb') as f:
 				shutil.copyfileobj(r, f)
 			with zipfile.ZipFile(path, 'r') as zip_ref:
-				zip_ref.extractall(f"lists/{service_name}")
-			source_path = os.path.join(script_path, '..', f"lists/{service_name}", f"{filename}.json")
-			dest_path = os.path.join(script_path, '..', f"lists/{service_name}", f"{dl_time}.json")
+				zip_ref.extractall(f"{lists_dir}/{service_name}")
+			source_path = os.path.join(f"{lists_dir}/{service_name}", f"{filename}.json")
+			dest_path = os.path.join(f"{lists_dir}/{service_name}", f"{dl_time}.json")
 			os.rename(source_path, dest_path)
 			os.remove(path)
 			reformat(dl_time)
