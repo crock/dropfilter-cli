@@ -1,4 +1,4 @@
-arrow==0.12.1
+arrow==0.15.1
 certifi==2018.4.16
 chardet==3.0.4
 idna==2.7
