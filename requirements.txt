@@ -1,5 +1,5 @@
 arrow==0.12.1
-certifi==2018.4.16
+certifi==2022.12.7
 chardet==3.0.4
 idna==2.7
 py3-progressbar==2.4.dev0
